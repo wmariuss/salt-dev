@@ -1,6 +1,6 @@
 # salt-dev
 
-Create environments for salt development and testing.
+Create environments automatically for salt development and testing.
 
 ## Requirement
 
