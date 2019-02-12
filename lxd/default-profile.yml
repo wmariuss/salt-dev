@@ -1,0 +1,20 @@
+config:
+  user.user-data: |
+    #cloud-config
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMZc24sP5vWzA5YLHSE30g0CFvuOqJp4rvFFpX4ORgVw6rDVGPCOGDGK/sDA0vSOyVkCHxdB9zqDhwZKreTBRf3W4nbGCHT7Uhot5qd39s03PGvTEJZsCfqf2B7aDEcGqBgIGsjXPZ8aXI2f5jN7WMzsoaEIfxLkgWwtpLXnaBu0Y5o21yZirYnhwxT2YKmysbxJYhufbcvuEAhlFQ0e8vdxL3xgcJhnbGti57oLGiAIFBBf0Pp1OlKicLqFs8vqkNoug+D0vbkj3Oq6Qyz4T26cdlrFJ6gfaSqmG52ZQLzamuuZHKf5+2H5/7oyZUZONpcLYhiX6Cnrs+Stq5N7g7 root@salt
+  environment.http_proxy: ""
+  user.network_mode: ""
+description: Default LXD profile
+devices:
+  eth0:
+    name: eth0
+    nictype: bridged
+    parent: lxdbr0
+    type: nic
+  root:
+    path: /
+    pool: default
+    type: disk
+name: default
+used_by: []

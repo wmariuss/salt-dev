@@ -1,0 +1,4 @@
+pylxd==2.2.7
+parallel-ssh==1.8.0.post1
+pyyaml==3.13
+invoke
