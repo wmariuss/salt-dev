@@ -1,6 +1,6 @@
 create: 'yes'
 container_config: 'container_config.json'
-containers: 2
+containers: 1
 salt_setup: 'yes'
 salt_version: '2017.7.2'
 ssh_user: 'ubuntu'

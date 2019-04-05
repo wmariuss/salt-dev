@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from __future__ import absolute_import, print_function, unicode_literals
+
 import json
 import yaml
 from time import sleep
@@ -10,8 +10,8 @@ from gevent import joinall
 from pylxd import Client
 from pylxd import exceptions
 
-client = Client()
 
+client = Client()
 
 def validate_settings_file(file):
     settings = None
@@ -19,7 +19,7 @@ def validate_settings_file(file):
         try:
             settings = yaml.load(paramters)
         except yaml.YAMLError as err:
-            print(err)
+            raise err
     return settings
 
 
@@ -37,7 +37,7 @@ def get_info(container_name):
         if container_info:
             return container_info
     except exceptions.LXDAPIException as err:
-        print(err)
+        raise err
 
 
 def get_ips():
@@ -45,16 +45,17 @@ def get_ips():
 
     for container_name in list_containers():
         addresses = get_info(container_name).network
+        print(addresses)
         interface = addresses['eth0']['addresses']
 
-        for info in interface:
-            if 'address' in info:
-                try:
-                    ipaddress.IPv4Address(info['address'])
-                    ipv4_list.append(info['address'])
-                except ipaddress.AddressValueError as err:
-                    pass
-
+        if interface:
+            for info in interface:
+                if 'address' in info:
+                    try:
+                        ipaddress.IPv4Address(info['address'])
+                        ipv4_list.append(info['address'])
+                    except ipaddress.AddressValueError:
+                        pass
     return ipv4_list
 
 
@@ -85,7 +86,7 @@ def create_container(file, number):
                 if list_containers():
                     container.start(wait=True)
             except exceptions.LXDAPIException as err:
-                print(err)
+                raise err
 
 
 def delete_container(file):
@@ -99,7 +100,7 @@ def delete_container(file):
                     sleep(10)
                     container.delete()
             except exceptions.LXDAPIException as err:
-                print(err)
+                raise err
 
 
 def salt(setup, ssh_user, ssh_key, salt_version):
@@ -107,22 +108,22 @@ def salt(setup, ssh_user, ssh_key, salt_version):
     install_salt = ';'.join([
         'wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/archive/{}/SALTSTACK-GPG-KEY.pub | sudo apt-key add -'.format(salt_version),
         'echo deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/archive/{} xenial main > /etc/apt/sources.list.d/saltstack.list'.format(salt_version),
-        'apt update',
-        'apt install -y salt-minion',
-        'apt autoremove -y',
+        'apt-get update',
+        'apt-get install -y salt-minion',
+        'apt-get autoremove -y',
         'cp /tmp/*.conf /etc/salt/minion.d/',
         'systemctl restart salt-minion.service'
     ])
 
     if setup.lower() == 'yes':
-        client = ParallelSSHClient(hosts, user=ssh_user, pkey=ssh_key)
-        cmd = client.run_command(install_salt, sudo=True)
+        sshc = ParallelSSHClient(hosts, user=ssh_user, pkey=ssh_key)
+        cmd = sshc.run_command(install_salt, sudo=True)
 
         if len(hosts) >= 1:
-            salt_conf_file = client.copy_file('salt', '/tmp', recurse=True)
+            salt_conf_file = sshc.copy_file('salt', '/tmp', recurse=True)
             joinall(salt_conf_file, raise_error=True)
 
-            for host, host_output in cmd.items():
+            for _, host_output in cmd.items():
                 for line in host_output.stdout:
                     print(line)
 

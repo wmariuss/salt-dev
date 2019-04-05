@@ -7,7 +7,13 @@ package_name = 'tests-env'
 
 @task
 def clean(c):
-    patterns = ['build', 'dist', '__pycache__', '*.pyc', '*.egg-info']
+    patterns = [
+            'build',
+            'dist',
+            '__pycache__',
+            '*.pyc',
+            '*.egg-info'
+            ]
     print("Cleaning up...")
     for pattern in patterns:
         c.run("rm -rf {}".format(pattern))
@@ -15,8 +21,9 @@ def clean(c):
 
 @task
 def install(c):
+    c.run("sudo apt-get update")
     # Install LXD >= 3.0
-    c.run("sudo apt install -y -t xenial-backports lxd lxd-client")
+    c.run("sudo apt-get install -y lxd lxd-client")
     # Generate test SSH keys
     c.run("ssh-keygen -t rsa -N '' -f $HOME/.ssh/id_rsa")
 
@@ -33,6 +40,7 @@ def setup(c):
     init = "lxd/lxd-init.yml"
     default = "lxd/default-profile.yml"
 
+    print('Setup...')
     c.run("lxd init --auto")
 
     if os.path.isfile(init):

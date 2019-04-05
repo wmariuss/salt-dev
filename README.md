@@ -1,31 +1,40 @@
-# salt-dev
+# saltd
 
 Create environments automatically for salt development and testing.
 
 ## Requirement
 
-* `Python 2.7`
+* `Python >= 3.5`
+* `Ubuntu >= 16.04`
+* `salt-master`, this must be the same as `salt-minion` installed on container(s)
 
 ## Install
 
-1. Clone the repository
-2. `pip install -r requirements.txt`
+* `pip install pipenv`
+* `pipenv install`
 
 ## Usage
 
-* `invoke install` - Install LXD/LXC and create default SSH key
-* Add public key (`$HOME/.ssh/id_rsa.pub`) in `lxd/default-profile.yml` and then run `invoke setup` for update the default profile (containers profile)
-* Change `settings.yml` and `salt/minion.conf` file as you want and then run `./run.py`
+* Install LXD/LXC and create default SSH key `pipenv run invoke install`
+* Add public key (ex.`$HOME/.ssh/id_rsa.pub`) in `lxd/default-profile.yml`
+* Run `pipenv run invoke setup` for update the default profile (containers profile)
+* Change `settings.yml` and `salt/minion.conf` file as you want
+* Run `pipenv run ./run.py`
 
 ## Parameters
 
-* create - 'yes' create containers, 'no' destroy all containers
-* container_config - based on this file, containers are created
-* containers - how many containers to create
-* salt_setup - enbale salt setup for containers
-* salt_version - salt minor release version
-* ssh_user - SSH user
+| Parameter | Description | Example | Default |
+|-----------|-------------|---------|---------|
+| create | Create/Destroy all containers | `yes`/`no` | |
+| container_config | Containers are created based on this file | `container_config.json` | |
+| containers | Number of containers you want to create | | `1` |
+| salt_setup | Enbale salt setup for containers | `yes`/`no` | `no` |
+| salt_version | What version for salt you want to use | `2017.7.2` | `2018.3.2` |
+| ssh_user | SSH user | | `ubuntu` |
+| ssh_private_key| SSH private key | `/root/.ssh/id_rsa` | |
+
+Note: Container OS is `Ubuntu 16.04`
 
 ## Authors
 
-Marius Stanca - <me@marius.xyz>
+* [Marius Stanca](mailto:me@marius.xyz)
