@@ -6,7 +6,7 @@ Create environments automatically for salt development and testing.
 
 * `Python >= 3.5`
 * `Ubuntu >= 18.04`
-* `salt-master`, this must be the same as `salt-minion` installed on container(s)
+* `salt-master`, this must be have same version as `salt-minion` that is installed on container(s)
 
 ## Install
 
