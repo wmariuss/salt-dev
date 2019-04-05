@@ -21,7 +21,7 @@ Create environments automatically for salt development and testing.
 * Change `settings.yml` and `salt/minion.conf` file as you want
 * Run `pipenv run ./run.py`
 
-## Parameters (settings.yaml)
+## Parameters (settings.yml)
 
 | Parameter | Description | Example | Default |
 |-----------|-------------|---------|---------|
