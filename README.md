@@ -5,7 +5,7 @@ Create environments automatically for salt development and testing.
 ## Requirement
 
 * `Python >= 3.5`
-* `Ubuntu >= 16.04`
+* `Ubuntu >= 18.04`
 * `salt-master`, this must be the same as `salt-minion` installed on container(s)
 
 ## Install
@@ -15,8 +15,8 @@ Create environments automatically for salt development and testing.
 
 ## Usage
 
-* Install LXD/LXC and create default SSH key `pipenv run invoke install`
-* Add public key (ex.`$HOME/.ssh/id_rsa.pub`) in `lxd/default-profile.yml`
+* Run `pipenv run invoke install`, this install `lxd/lxc` and create default SSH key
+* Add created public key (ex.`$HOME/.ssh/id_rsa.pub`) in `lxd/default-profile.yml`
 * Run `pipenv run invoke setup` for update the default profile (containers profile)
 * Change `settings.yml` and `salt/minion.conf` file as you want
 * Run `pipenv run ./run.py`
