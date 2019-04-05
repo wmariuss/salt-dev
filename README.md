@@ -6,7 +6,7 @@ Create environments automatically for salt development and testing.
 
 * `Python >= 3.5`
 * `Ubuntu >= 18.04`
-* `salt-master`, this must be have same version as `salt-minion` that is installed on container(s)
+* `salt-master`, this must have the same version as `salt-minion` that is installed on container(s)
 
 ## Install
 
@@ -21,7 +21,7 @@ Create environments automatically for salt development and testing.
 * Change `settings.yml` and `salt/minion.conf` file as you want
 * Run `pipenv run ./run.py`
 
-## Parameters
+## Parameters (settings.yaml)
 
 | Parameter | Description | Example | Default |
 |-----------|-------------|---------|---------|
