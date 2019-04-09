@@ -26,12 +26,12 @@ Create environments automatically for salt development and testing.
 | Parameter | Description | Example | Default |
 |-----------|-------------|---------|---------|
 | `create` | Create/Destroy all containers | `yes`/`no` | |
-| `container\_config` | Containers are created based on this file | `container_config.json` | |
+| `container_config` | Containers are created based on this file | `container_config.json` | |
 | `containers` | Number of containers you want to create | | `1` |
-| `salt\_setup` | Enbale salt setup for containers | `yes`/`no` | `no` |
-| `salt\_version` | What version for salt you want to use | `2017.7.2` | `2018.3.2` |
-| `ssh\_user` | SSH user | | `ubuntu` |
-| `ssh\_private_key` | SSH private key | `/root/.ssh/id_rsa` | |
+| `salt_setup` | Enbale salt setup for containers | `yes`/`no` | `no` |
+| `salt_version` | What version for salt you want to use | `2017.7.2` | `2018.3.2` |
+| `ssh_user` | SSH user | | `ubuntu` |
+| `ssh_private_key` | SSH private key | `/root/.ssh/id_rsa` | |
 
 Note: Container OS is `Ubuntu 16.04`
 
