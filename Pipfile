@@ -5,9 +5,11 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+pep8 = "*"
+mypy = "*"
 
 [packages]
-pylxd = "==2.2.9"
+pylxd = "==2.2.10"
 parallel-ssh = "==1.9.1"
 invoke = "*"
 PyYAML = "==4.2b1"

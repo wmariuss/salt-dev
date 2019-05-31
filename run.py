@@ -13,6 +13,7 @@ from pylxd import exceptions
 
 client = Client()
 
+
 def validate_settings_file(file):
     settings = None
     with open(file, 'r') as paramters:
@@ -43,9 +44,9 @@ def get_info(container_name):
 def get_ips():
     ipv4_list = []
 
+    sleep(5)
     for container_name in list_containers():
         addresses = get_info(container_name).network
-        print(addresses)
         interface = addresses['eth0']['addresses']
 
         if interface:
@@ -142,6 +143,7 @@ if __name__ == '__main__':
         ssh_key = settings.get('ssh_private_key')
 
         if create.lower() == 'yes':
+            print('Creating containers...')
             create_container(container_config, number)
             sleep(10)
             if ssh_key:
@@ -149,4 +151,5 @@ if __name__ == '__main__':
             else:
                 print('Please specify ssh_private_key parameter in settings.yml file')
         else:
+            print('Destroying containers...')
             delete_container(container_config)

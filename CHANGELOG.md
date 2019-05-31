@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2
+
+* Option to create environment based on Vagrant
+* Tasks improvements
+* Easier to install dependencies
+
 ## v0.1
 
 * Create LXC containers

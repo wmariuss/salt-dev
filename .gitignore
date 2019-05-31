@@ -1,5 +1,6 @@
 # Local files
 .vscode
+.vagrant
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
