@@ -70,7 +70,7 @@ def remove(c, lxd=False, salt=False):
 
 
 @task
-def setup(c, lxd=False, salt=False):
+def setup(c, lxd=False):
     if lxd:
         init = "lxd/lxd-init.yml"
         default = "lxd/default-profile.yml"
@@ -84,5 +84,3 @@ def setup(c, lxd=False, salt=False):
         if os.path.isfile(default):
             sleep(5)
             c.run("lxc profile edit default < {}".format(default))
-    if salt:
-        pass

@@ -19,7 +19,7 @@ Using vagrant
 ## Usage
 
 * Copy public key from `$HOME/.ssh/id_rsa` and add it `lxd/default-profile.yml` file
-* Run `pipenv run invoke setup --lxd --salt` for update the default profile (containers profile) and configure salt
+* Run `pipenv run invoke setup --lxd` for update the default profile (containers profile)
 * Change `settings.yml` and `salt/minion.conf` files as you want
 * Run `pipenv run ./run.py`
 
