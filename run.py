@@ -43,19 +43,21 @@ def get_info(container_name):
 
 def get_ips():
     ipv4_list = []
+    containers = list_containers()
 
-    for container_name in list_containers():
-        addresses = get_info(container_name).network
-        interface = addresses['eth0']['addresses']
+    if containers is not None:
+      for container_name in containers:
+          addresses = get_info(container_name).network
+          interface = addresses['eth0']['addresses']
 
-        if interface:
-            for info in interface:
-                if 'address' in info:
-                    try:
-                        ipaddress.IPv4Address(info['address'])
-                        ipv4_list.append(info['address'])
-                    except ipaddress.AddressValueError:
-                        pass
+          if interface:
+              for info in interface:
+                  if 'address' in info:
+                      try:
+                          ipaddress.IPv4Address(info['address'])
+                          ipv4_list.append(info['address'])
+                      except ipaddress.AddressValueError:
+                          pass
     return ipv4_list
 
 

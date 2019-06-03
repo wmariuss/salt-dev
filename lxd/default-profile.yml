@@ -2,7 +2,7 @@ config:
   user.user-data: |
     #cloud-config
     ssh_authorized_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDeiWh+POBj7ocjHHDYpKMQXKvqFiVqit4ikKnIYrT1di6WYAl/VPHhqmBLw66XIZDusKoAhx4pSMmpU9EPPoSplkwt7tZALRFwlffDp6lC7O31oVhyz0m8L0OXgoOyi5hnyQLpbnci1FKUIxEWQnkeYaksKOdtG6F+eRJB5vqEXFSiwv5rujp+w+FwcGcOXxlY5UToUermwTrNSUrwJaPKCz2sYkdZ9Vz17iSUHIoDpdvSg7HXk4EbXJqgxRj4F68g3CqLl9GV+kdHr3yokIzZoA3IeNZzRH0gtyYgDOwlGsTBW0F5hQ9cUYXsL21IwJChZ5ryao3cqfSQ0Ml2xL5B root@saltd
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5hJSu3eZjLDbGXW+iQBEwiV3ldoIvpuRj2pSuFW8EMw2oa8So7mJAycxdoKO7pnNoxSC1qRz/0/Vatem72HOIb6hfDMtM6a8oI82mmy0Mrrmah8Vd6NUOfL9G08CYEHB9+lhZ84JBDFoudiKgFFAk0K5vy0C9cEHxRPiMBjHE9BX2qCV5quwOo7Gu7n+PcBQaTaJx7heX40DEuBolS0mDC8MC9oGnut0f693DmNHzSdHxQ3Do07kiCFpUZh9w4PYonNEK8FDr6/YVv4mp0Ox97vxJ1n4+JWQXcC/+poLpvgkrZPhhiS9uSBbRq9R+dSike9oQOVmjNT7tDn57jMyF root@saltd
   environment.http_proxy: ""
   user.network_mode: ""
 description: Default LXD profile
