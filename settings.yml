@@ -1,6 +1,6 @@
 create: 'yes'
 container_config: 'container_config.json'
-containers: 1
+containers: 2
 salt_setup: 'yes'
 ssh_user: 'ubuntu'
 ssh_private_key: '/root/.ssh/id_rsa'

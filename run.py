@@ -44,7 +44,6 @@ def get_info(container_name):
 def get_ips():
     ipv4_list = []
 
-    sleep(5)
     for container_name in list_containers():
         addresses = get_info(container_name).network
         interface = addresses['eth0']['addresses']
