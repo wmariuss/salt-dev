@@ -34,8 +34,6 @@ Using vagrant
 | `salt_version` | What version for salt you want to use | `2017.7.2` | `2018.3.2` |
 | `ssh_user` | SSH user | | `ubuntu` |
 | `ssh_private_key` | SSH private key | | `/root/.ssh/id_rsa` |
-| `os_version` | OS version number | | `18.04` |
-| `os_codename` | OS code name | | `bionic` |
 
 Note: Container OS is `Ubuntu 16.04`
 

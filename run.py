@@ -46,18 +46,18 @@ def get_ips():
     containers = list_containers()
 
     if containers is not None:
-      for container_name in containers:
-          addresses = get_info(container_name).network
-          interface = addresses['eth0']['addresses']
+        for container_name in containers:
+            addresses = get_info(container_name).network
+            interface = addresses['eth0']['addresses']
 
-          if interface:
-              for info in interface:
-                  if 'address' in info:
-                      try:
-                          ipaddress.IPv4Address(info['address'])
-                          ipv4_list.append(info['address'])
-                      except ipaddress.AddressValueError:
-                          pass
+            if interface:
+                for info in interface:
+                    if 'address' in info:
+                        try:
+                            ipaddress.IPv4Address(info['address'])
+                            ipv4_list.append(info['address'])
+                        except ipaddress.AddressValueError:
+                            pass
     return ipv4_list
 
 
@@ -107,11 +107,12 @@ def delete_container(file):
 
 def salt(setup, ssh_user, ssh_key, salt_version):
     hosts = get_ips()
+    salt_bootstrap = 'https://bootstrap.saltstack.com'
+
     install_salt = ';'.join([
-        'wget -O - https://repo.saltstack.com/apt/ubuntu/16.04/amd64/archive/{}/SALTSTACK-GPG-KEY.pub | sudo apt-key add -'.format(salt_version),
-        'echo deb http://repo.saltstack.com/apt/ubuntu/16.04/amd64/archive/{} xenial main > /etc/apt/sources.list.d/saltstack.list'.format(salt_version),
-        'apt-get update',
-        'apt-get install -y salt-minion',
+        'apt-get install -y curl',
+        'curl -L {} -o install_salt.sh'.format(salt_bootstrap),
+        'sh install_salt.sh stable {}'.format(salt_version),
         'apt-get autoremove -y',
         'cp /tmp/*.conf /etc/salt/minion.d/',
         'systemctl restart salt-minion.service'

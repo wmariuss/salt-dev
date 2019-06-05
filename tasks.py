@@ -24,10 +24,6 @@ def clean(c):
 
 @task
 def install(c, lxd=False, salt=False):
-    salt_version = settings.get('salt_version', '2018.3.2')
-    os_version = settings.get('os_version', '18.04')
-    os_codename = settings.get('os_codename', 'bionic')
-
     if lxd:
         print("Installing LXD...")
         c.run("sudo apt-get update")
@@ -36,20 +32,29 @@ def install(c, lxd=False, salt=False):
         # Generate test SSH keys
         c.run("ssh-keygen -t rsa -N '' -f $HOME/.ssh/id_rsa")
     if salt:
-        print("Installing salt-master...")
+        print("Installing salt...")
+        python_version = 'python3.6'
+        salt_version = settings.get('salt_version', '2018.3.4')
+        salt_bootstrap = 'https://bootstrap.saltstack.com'
         master_config_file = 'salt/master/base.conf'
+        minion_config_file = 'salt/minion.conf'
 
-        c.run("wget -O - https://repo.saltstack.com/apt/ubuntu/{}/amd64/archive/{}/SALTSTACK-GPG-KEY.pub | sudo apt-key add -".format(os_version, salt_version))
-        c.run("sudo echo deb http://repo.saltstack.com/apt/ubuntu/{}/amd64/archive/{} {} main > /etc/apt/sources.list.d/saltstack.list".format(os_version,
-                                                                                                                                               salt_version,
-                                                                                                                                               os_codename))
-        c.run("sudo apt-get update")
-        c.run("sudo apt-get install -y salt-master")
+        # Install salt-master and minion
+        c.run("curl -L {} -o install_salt.sh".format(salt_bootstrap))
+        c.run("sudo sh install_salt.sh -M -x {} stable {}".format(python_version, salt_version))
+        c.run("sudo rm install_salt.sh")
+
+        # Configure salt
         c.run("sudo mkdir -p /srv/salt")
         c.run("sudo mkdir -p /srv/pillar")
+
         if os.path.isfile(master_config_file):
             c.run("sudo cp {} /etc/salt/master.d/".format(master_config_file))
             c.run("sudo systemctl restart salt-master.service")
+
+            if os.path.isfile(minion_config_file):
+                c.run("sudo cp {} /etc/salt/minion.d/".format(minion_config_file))
+                c.run("sudo systemctl restart salt-minion.service")
         else:
             print('There is not salt master config file. Please take a look at {}'.format(master_config_file))
 
