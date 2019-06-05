@@ -142,7 +142,7 @@ if __name__ == '__main__':
         salt_setup = settings.get('salt_setup', 'no')
         ssh_user = settings.get('ssh_user', 'ubuntu')
         salt_version = settings.get('salt_version', '2018.3.2')
-        ssh_key = settings.get('ssh_private_key')
+        ssh_key = settings.get('ssh_private_key', '/root/.ssh/id_rsa')
 
         if create.lower() == 'yes':
             print('Creating containers...')
