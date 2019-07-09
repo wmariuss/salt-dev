@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--memory", "3000"]
     vb.customize ["modifyvm", :id, "--cpus", 4]
     # Disable ubuntu cloudimg console log
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
