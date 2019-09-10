@@ -2,6 +2,6 @@
 
 set -e
 
-echo "Creating VM..."
+echo "Starting VM..."
 vagrant up;
 vagrant ssh
