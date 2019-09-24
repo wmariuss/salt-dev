@@ -1,7 +1,9 @@
 {
     "name": "saltd",
     "ephemeral": false,
-    "profiles": ["default"],
+    "profiles": [
+        "default"
+    ],
     "source": {
         "protocol": "simplestreams",
         "alias": "16.04",

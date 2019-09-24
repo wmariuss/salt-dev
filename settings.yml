@@ -1,7 +1,7 @@
-create: 'yes'
-container_config: 'container_config.json'
+create: "yes"
+container_config: "container_config.json"
 containers: 2
-salt_version: '2018.3.2'
-salt_setup: 'yes'
-ssh_user: 'ubuntu'
-ssh_private_key: '/root/.ssh/id_rsa'
+salt_version: "2018.3.2"
+salt_setup: "yes"
+ssh_user: "ubuntu"
+ssh_private_key: "/root/.ssh/id_rsa"

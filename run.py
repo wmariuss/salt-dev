@@ -16,7 +16,7 @@ client = Client()
 
 def validate_settings_file(file):
     settings = None
-    with open(file, 'r') as paramters:
+    with open(file, "r") as paramters:
         try:
             settings = yaml.load(paramters)
         except yaml.YAMLError as err:
@@ -48,14 +48,14 @@ def get_ips():
     if containers is not None:
         for container_name in containers:
             addresses = get_info(container_name).network
-            interface = addresses['eth0']['addresses']
+            interface = addresses["eth0"]["addresses"]
 
             if interface:
                 for info in interface:
-                    if 'address' in info:
+                    if "address" in info:
                         try:
-                            ipaddress.IPv4Address(info['address'])
-                            ipv4_list.append(info['address'])
+                            ipaddress.IPv4Address(info["address"])
+                            ipv4_list.append(info["address"])
                         except ipaddress.AddressValueError:
                             pass
     return ipv4_list
@@ -64,7 +64,7 @@ def get_ips():
 def validate_container_config(file):
     params = None
 
-    with open(file, 'r') as stream:
+    with open(file, "r") as stream:
         try:
             params = json.load(stream)
         except Exception as err:
@@ -76,10 +76,10 @@ def create_container(file, number):
     params = validate_settings_file(file)
 
     if params:
-        name = params.get('name')
+        name = params.get("name")
 
         for n in range(0, int(number)):
-            new_name = {u'name': u'{}-{}'.format(name, n)}
+            new_name = {u"name": u"{}-{}".format(name, n)}
             params.update(new_name)
 
             try:
@@ -107,23 +107,25 @@ def delete_container(file):
 
 def salt(setup, ssh_user, ssh_key, salt_version):
     hosts = get_ips()
-    salt_bootstrap = 'https://bootstrap.saltstack.com'
+    salt_bootstrap = "https://bootstrap.saltstack.com"
 
-    install_salt = ';'.join([
-        'apt-get install -y curl',
-        'curl -L {} -o install_salt.sh'.format(salt_bootstrap),
-        'sh install_salt.sh stable {}'.format(salt_version),
-        'apt-get autoremove -y',
-        'cp /tmp/*.conf /etc/salt/minion.d/',
-        'systemctl restart salt-minion.service'
-    ])
+    install_salt = ";".join(
+        [
+            "apt-get install -y curl",
+            "curl -L {} -o install_salt.sh".format(salt_bootstrap),
+            "sh install_salt.sh stable {}".format(salt_version),
+            "apt-get autoremove -y",
+            "cp /tmp/*.conf /etc/salt/minion.d/",
+            "systemctl restart salt-minion.service",
+        ]
+    )
 
-    if setup.lower() == 'yes':
+    if setup.lower() == "yes":
         sshc = ParallelSSHClient(hosts, user=ssh_user, pkey=ssh_key)
         cmd = sshc.run_command(install_salt, sudo=True)
 
         if len(hosts) >= 1:
-            salt_conf_file = sshc.copy_file('salt', '/tmp', recurse=True)
+            salt_conf_file = sshc.copy_file("salt", "/tmp", recurse=True)
             joinall(salt_conf_file, raise_error=True)
 
             for _, host_output in cmd.items():
@@ -131,27 +133,27 @@ def salt(setup, ssh_user, ssh_key, salt_version):
                     print(line)
 
 
-if __name__ == '__main__':
-    settings_file = 'settings.yml'
+if __name__ == "__main__":
+    settings_file = "settings.yml"
     settings = validate_settings_file(settings_file)
 
     if settings:
-        create = settings.get('create')
-        container_config = settings.get('container_config')
-        number = settings.get('containers', 1)
-        salt_setup = settings.get('salt_setup', 'no')
-        ssh_user = settings.get('ssh_user', 'ubuntu')
-        salt_version = settings.get('salt_version', '2018.3.2')
-        ssh_key = settings.get('ssh_private_key', '/root/.ssh/id_rsa')
+        create = settings.get("create")
+        container_config = settings.get("container_config")
+        number = settings.get("containers", 1)
+        salt_setup = settings.get("salt_setup", "no")
+        ssh_user = settings.get("ssh_user", "ubuntu")
+        salt_version = settings.get("salt_version", "2018.3.2")
+        ssh_key = settings.get("ssh_private_key", "/root/.ssh/id_rsa")
 
-        if create.lower() == 'yes':
-            print('Creating containers...')
+        if create.lower() == "yes":
+            print("Creating containers...")
             create_container(container_config, number)
             sleep(10)
             if ssh_key:
                 salt(salt_setup, ssh_user, ssh_key, salt_version)
             else:
-                print('Please specify ssh_private_key parameter in settings.yml file')
+                print("Please specify ssh_private_key parameter in settings.yml file")
         else:
-            print('Destroying containers...')
+            print("Destroying containers...")
             delete_container(container_config)

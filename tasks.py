@@ -5,18 +5,12 @@ import yaml
 
 from run import validate_settings_file
 
-settings = validate_settings_file('settings.yml')
+settings = validate_settings_file("settings.yml")
 
 
 @task
 def clean(c):
-    patterns = [
-            'build',
-            'dist',
-            '__pycache__',
-            '*.pyc',
-            '*.egg-info'
-            ]
+    patterns = ["build", "dist", "__pycache__", "*.pyc", "*.egg-info"]
     print("Cleaning up...")
     for pattern in patterns:
         c.run("rm -rf {}".format(pattern))
@@ -33,15 +27,19 @@ def install(c, lxd=False, salt=False):
         c.run("ssh-keygen -t rsa -N '' -f $HOME/.ssh/id_rsa")
     if salt:
         print("Installing salt...")
-        python_version = 'python3.6'
-        salt_version = settings.get('salt_version', '2018.3.4')
-        salt_bootstrap = 'https://bootstrap.saltstack.com'
-        master_config_file = 'salt/master/base.conf'
-        minion_config_file = 'salt/minion.conf'
+        python_version = "python3.6"
+        salt_version = settings.get("salt_version", "2018.3.4")
+        salt_bootstrap = "https://bootstrap.saltstack.com"
+        master_config_file = "salt/master/base.conf"
+        minion_config_file = "salt/minion.conf"
 
         # Install salt-master and minion
         c.run("curl -L {} -o install_salt.sh".format(salt_bootstrap))
-        c.run("sudo sh install_salt.sh -M -x {} stable {}".format(python_version, salt_version))
+        c.run(
+            "sudo sh install_salt.sh -M -x {} stable {}".format(
+                python_version, salt_version
+            )
+        )
         c.run("sudo rm install_salt.sh")
 
         # Configure salt
@@ -56,7 +54,11 @@ def install(c, lxd=False, salt=False):
                 c.run("sudo cp {} /etc/salt/minion.d/".format(minion_config_file))
                 c.run("sudo systemctl restart salt-minion.service")
         else:
-            print('There is not salt master config file. Please take a look at {}'.format(master_config_file))
+            print(
+                "There is not salt master config file. Please take a look at {}".format(
+                    master_config_file
+                )
+            )
 
     c.run("sudo apt-get autoremove -y")
 
@@ -80,7 +82,7 @@ def setup(c, lxd=False):
         init = "lxd/lxd-init.yml"
         default = "lxd/default-profile.yml"
 
-        print('Setup...')
+        print("Setup...")
         c.run("lxd init --auto")
 
         if os.path.isfile(init):
