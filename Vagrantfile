@@ -4,7 +4,7 @@ require 'fileutils'
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 
 SALTDDIR = File.join(File.dirname(__FILE__))
-WORKDIR = "~/work/dev/"
+WORKDIR = "~/work/"
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
